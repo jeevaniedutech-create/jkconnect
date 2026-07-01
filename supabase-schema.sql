@@ -293,17 +293,22 @@ grant execute on function public.jc_student_get_state(text, text) to anon, authe
 -- SEED: 12 batches with credentials
 -- KEEP THIS LIST — this is the initial set of usernames/passwords
 -- =====================================================================
+-- Simple, memorable credentials (pattern: studentNN / learnNN, adminNN / teachNN)
 insert into public.batches (id, name, student_username, student_password, admin_username, admin_password) values
-  (1,  'Batch 01', 'jc-stu-b01', 'Rk7mN2pXqZ', 'jc-adm-b01', 'K9tR2vQm4A'),
-  (2,  'Batch 02', 'jc-stu-b02', 'Vt4jL9wYcH', 'jc-adm-b02', 'P4yN7sJc8B'),
-  (3,  'Batch 03', 'jc-stu-b03', 'Bd8sQ3fMxU', 'jc-adm-b03', 'M8bV3xLw2C'),
-  (4,  'Batch 04', 'jc-stu-b04', 'Ep2vT6nRhK', 'jc-adm-b04', 'H2fD6nQr5D'),
-  (5,  'Batch 05', 'jc-stu-b05', 'Wc9yJ5aLbX', 'jc-adm-b05', 'T5cJ9pKa7E'),
-  (6,  'Batch 06', 'jc-stu-b06', 'Gm3rP7uNdF', 'jc-adm-b06', 'R7uZ4mBx3F'),
-  (7,  'Batch 07', 'jc-stu-b07', 'Zk6hV1qBsY', 'jc-adm-b07', 'L3sW8vHn6G'),
-  (8,  'Batch 08', 'jc-stu-b08', 'Xn4tM8oCwE', 'jc-adm-b08', 'N6qF2rTp9H'),
-  (9,  'Batch 09', 'jc-stu-b09', 'Fj2bK5zPqA', 'jc-adm-b09', 'B9dY5kCw4J'),
-  (10, 'Batch 10', 'jc-stu-b10', 'Uh7lD3rGvS', 'jc-adm-b10', 'J4mX7sQv2K'),
-  (11, 'Batch 11', 'jc-stu-b11', 'Qa9wR6mYtC', 'jc-adm-b11', 'V2nP8tRh5L'),
-  (12, 'Batch 12', 'jc-stu-b12', 'Lp5xN8kHvB', 'jc-adm-b12', 'C6kL3wMy8N')
-on conflict (id) do nothing;
+  (1,  'Batch 01', 'student01', 'learn01', 'admin01', 'teach01'),
+  (2,  'Batch 02', 'student02', 'learn02', 'admin02', 'teach02'),
+  (3,  'Batch 03', 'student03', 'learn03', 'admin03', 'teach03'),
+  (4,  'Batch 04', 'student04', 'learn04', 'admin04', 'teach04'),
+  (5,  'Batch 05', 'student05', 'learn05', 'admin05', 'teach05'),
+  (6,  'Batch 06', 'student06', 'learn06', 'admin06', 'teach06'),
+  (7,  'Batch 07', 'student07', 'learn07', 'admin07', 'teach07'),
+  (8,  'Batch 08', 'student08', 'learn08', 'admin08', 'teach08'),
+  (9,  'Batch 09', 'student09', 'learn09', 'admin09', 'teach09'),
+  (10, 'Batch 10', 'student10', 'learn10', 'admin10', 'teach10'),
+  (11, 'Batch 11', 'student11', 'learn11', 'admin11', 'teach11'),
+  (12, 'Batch 12', 'student12', 'learn12', 'admin12', 'teach12')
+on conflict (id) do update set
+  student_username = excluded.student_username,
+  student_password = excluded.student_password,
+  admin_username   = excluded.admin_username,
+  admin_password   = excluded.admin_password;
