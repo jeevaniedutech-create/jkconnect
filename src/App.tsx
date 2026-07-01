@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/StudentDashboard";
@@ -5,7 +6,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import { Toaster } from "@/components/ui/sonner";
 import { getSession } from "./lib/auth";
 
-function Protected({ role, children }: { role: "admin" | "student"; children: React.ReactElement }) {
+function Protected({ role, children }: { role: "admin" | "student"; children: ReactElement }) {
   const s = getSession();
   if (!s) return <Navigate to="/" replace />;
   if (s.role !== role) return <Navigate to={s.role === "admin" ? "/admin" : "/student"} replace />;
