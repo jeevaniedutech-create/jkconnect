@@ -5,7 +5,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import { Toaster } from "@/components/ui/sonner";
 import { getSession } from "./lib/auth";
 
-function Protected({ role, children }: { role: "admin" | "student"; children: JSX.Element }) {
+function Protected({ role, children }: { role: "admin" | "student"; children: React.ReactElement }) {
   const s = getSession();
   if (!s) return <Navigate to="/" replace />;
   if (s.role !== role) return <Navigate to={s.role === "admin" ? "/admin" : "/student"} replace />;
