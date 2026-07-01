@@ -119,8 +119,8 @@ returns json language plpgsql security definer set search_path = public as $$
 declare _bid int; _new_user text; _new_pass text;
 begin
   _bid := public._jc_verify_admin(_u, _p);
-  _new_user := 'jc-stu-b' || lpad(_bid::text, 2, '0') || '-' || substr(md5(random()::text || clock_timestamp()::text), 1, 5);
-  _new_pass := substr(md5(random()::text || clock_timestamp()::text), 1, 10);
+  _new_user := 'student' || lpad(_bid::text, 2, '0');
+  _new_pass := 'learn' || lpad(_bid::text, 2, '0') || substr(md5(random()::text), 1, 3);
   update public.batches
     set student_username = _new_user, student_password = _new_pass
     where id = _bid;
