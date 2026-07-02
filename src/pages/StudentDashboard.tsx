@@ -8,10 +8,10 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { LogOut, Loader2, PlayCircle, Video, Clock, Sparkles, CalendarClock } from "lucide-react";
-import JitsiEmbed from "@/components/JitsiEmbed";
+import { LogOut, Loader2, PlayCircle, Video, Clock, Sparkles, CalendarClock, ExternalLink } from "lucide-react";
 import YouTubeProtected from "@/components/YouTubeProtected";
 import { Logo } from "@/components/Brand";
+import { openMeet } from "@/lib/meet";
 
 
 type State = {
@@ -29,29 +29,27 @@ export default function StudentDashboard() {
   const nav = useNavigate();
   const s = getSession()!;
   const [state, setState] = useState<State | null>(null);
-  const [joined, setJoined] = useState(false);
   const [waiting, setWaiting] = useState(false);
+  const [attended, setAttended] = useState(false);
   const [justCompleted, setJustCompleted] = useState(false);
   const [confirmJoin, setConfirmJoin] = useState(false);
 
   const load = useCallback(async () => {
     try {
       const st = await rpc<State>("jc_student_get_state", { _u: s.username, _p: s.password });
-      setState(st);
-      // If we were joined and session ended
-      if (joined && !st.active) {
-        setJoined(false);
-        setJustCompleted(true);
-      }
-      // If we were waiting and admin gave access
-      if (waiting && st.active?.students_allowed && st.active.meet_link) {
-        setWaiting(false);
-        setJoined(true);
-      }
+      setState((prev) => {
+        // If we had an active session going and it just ended, show completion.
+        if ((prev?.active || attended || waiting) && !st.active && (attended || waiting)) {
+          setJustCompleted(true);
+          setAttended(false);
+          setWaiting(false);
+        }
+        return st;
+      });
     } catch (e: any) {
       toast.error(e.message);
     }
-  }, [joined, waiting, s.username, s.password]);
+  }, [s.username, s.password, attended, waiting]);
 
   useEffect(() => {
     load();
@@ -61,11 +59,18 @@ export default function StudentDashboard() {
 
   function logout() { clearSession(); nav("/", { replace: true }); }
 
+  function openClass() {
+    if (!state?.active?.meet_link) return;
+    openMeet(state.active.meet_link, { displayName: `Student · ${state.batch.name}` });
+    setAttended(true);
+    setWaiting(false);
+    setJustCompleted(false);
+  }
+
   function handleJoin() {
     setConfirmJoin(false);
     if (state?.active?.students_allowed && state.active.meet_link) {
-      setJoined(true);
-      setJustCompleted(false);
+      openClass();
     } else {
       setWaiting(true);
     }
@@ -93,31 +98,51 @@ export default function StudentDashboard() {
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 space-y-8">
         {!state ? (
           <div className="flex items-center gap-2 text-slate-600"><Loader2 className="w-4 h-4 animate-spin" />Loading…</div>
-        ) : joined && state.active?.meet_link ? (
-          <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-2 md:p-3 rounded-3xl">
-            <div className="h-[70vh]">
-              <JitsiEmbed
-                meetLink={state.active.meet_link}
-                displayName={`Student ${state.batch.name}`}
-                onLeft={() => setJoined(false)}
-              />
-            </div>
-          </Card>
         ) : waiting ? (
-          <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-10 md:p-16 rounded-3xl text-center">
-            <div className="relative inline-flex mb-6">
-              <div className="absolute inset-0 rounded-full bg-teal-400 blur-xl opacity-60 animate-pulse" />
-              <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-teal-700 to-emerald-500 flex items-center justify-center">
-                <Sparkles className="w-9 h-9 text-white animate-pulse" />
+          state.active?.students_allowed && state.active.meet_link ? (
+            <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 backdrop-blur-xl border-teal-900/10 p-10 md:p-16 rounded-3xl text-center">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-teal-700 to-emerald-500 flex items-center justify-center shadow-lg">
+                <Video className="w-9 h-9 text-white" />
               </div>
+              <h2 className="text-2xl md:text-3xl font-semibold">Your class has started</h2>
+              <p className="text-slate-600 mt-3 max-w-md mx-auto">
+                Your instructor has opened the room. Click below to join the live class in a new tab.
+              </p>
+              <Button size="lg" onClick={openClass}
+                className="mt-6 bg-gradient-to-r from-teal-700 to-emerald-500 text-white h-12 px-8 text-base shadow-lg">
+                <ExternalLink className="w-5 h-5 mr-2" /> Join now
+              </Button>
+              <p className="text-xs text-slate-500 mt-3">Opens in a new tab · use your browser's fullscreen for the best experience.</p>
+            </Card>
+          ) : (
+            <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-10 md:p-16 rounded-3xl text-center">
+              <div className="relative inline-flex mb-6">
+                <div className="absolute inset-0 rounded-full bg-teal-400 blur-xl opacity-60 animate-pulse" />
+                <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-teal-700 to-emerald-500 flex items-center justify-center">
+                  <Sparkles className="w-9 h-9 text-white animate-pulse" />
+                </div>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-semibold">Hang tight — your class is being prepared</h2>
+              <p className="text-slate-600 mt-3 max-w-md mx-auto">
+                Your instructor is setting up the live session. The Join button will appear here the moment they open the room.
+              </p>
+              <div className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-500">
+                <Loader2 className="w-4 h-4 animate-spin" /> Waiting for instructor…
+              </div>
+              <Button variant="ghost" className="mt-4 text-slate-600" onClick={() => setWaiting(false)}>Cancel</Button>
+            </Card>
+          )
+        ) : attended && state.active?.meet_link ? (
+          <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-10 md:p-16 rounded-3xl text-center">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-teal-700 to-emerald-500 flex items-center justify-center">
+              <ExternalLink className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold">Hang tight — your class is being prepared</h2>
-            <p className="text-slate-600 mt-3 max-w-md mx-auto">
-              Your instructor is setting up the live session. You'll be joined automatically the moment they open the room.
-            </p>
-            <div className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-500">
-              <Loader2 className="w-4 h-4 animate-spin" /> Waiting for instructor…
-            </div>
+            <h2 className="text-2xl md:text-3xl font-semibold">You're in the live class</h2>
+            <p className="text-slate-600 mt-3">The class opened in a new tab. If you closed it, you can reopen it below.</p>
+            <Button size="lg" onClick={openClass}
+              className="mt-6 bg-gradient-to-r from-teal-700 to-emerald-500 text-white h-12 px-8 text-base shadow-lg">
+              <ExternalLink className="w-5 h-5 mr-2" /> Reopen class
+            </Button>
           </Card>
         ) : justCompleted ? (
           <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-10 md:p-16 rounded-3xl text-center">
