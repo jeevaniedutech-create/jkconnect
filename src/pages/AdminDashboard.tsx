@@ -135,24 +135,24 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[oklch(0.14_0.05_270)] via-[oklch(0.16_0.06_280)] to-[oklch(0.13_0.05_260)] text-white">
-      <header className="border-b border-white/10 backdrop-blur bg-black/20 sticky top-0 z-30">
+    <div className="min-h-screen bg-gradient-to-br from-[#faf7f2] via-[#f3ede2] to-[#e6f4f1] text-slate-900">
+      <header className="border-b border-teal-900/10 backdrop-blur bg-white/70 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-widest text-white/50">Jeevani Connect · Admin</div>
+            <div className="text-xs uppercase tracking-widest text-slate-500">Jeevani Connect · Admin</div>
             <div className="font-semibold">{state?.batch?.name ?? s.batch_name}</div>
           </div>
-          <Button variant="ghost" onClick={logout} className="text-white/80 hover:text-white hover:bg-white/10">
+          <Button variant="ghost" onClick={logout} className="text-slate-700 hover:text-slate-900 hover:bg-slate-100">
             <LogOut className="w-4 h-4 mr-2" />Sign out
           </Button>
         </div>
       </header>
 
       {!state ? (
-        <div className="p-10 text-white/60 flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" />Loading…</div>
+        <div className="p-10 text-slate-600 flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" />Loading…</div>
       ) : joined && joined.meet_link ? (
         <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 grid lg:grid-cols-[1fr_320px] gap-6">
-          <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-2 rounded-3xl">
+          <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-2 rounded-3xl">
             <div className="h-[75vh]">
               <JitsiEmbed
                 meetLink={joined.meet_link}
@@ -162,25 +162,25 @@ export default function AdminDashboard() {
             </div>
           </Card>
           <aside className="space-y-4">
-            <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-5 rounded-2xl space-y-3">
-              <div className="text-xs uppercase tracking-widest text-white/50">Live controls</div>
-              <p className="text-xs text-white/60">Tip: join 10–15 minutes before your scheduled start so audio, video, and screen-sharing are ready when students arrive.</p>
+            <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-5 rounded-2xl space-y-3">
+              <div className="text-xs uppercase tracking-widest text-slate-500">Live controls</div>
+              <p className="text-xs text-slate-600">Tip: join 10–15 minutes before your scheduled start so audio, video, and screen-sharing are ready when students arrive.</p>
               {!joined.students_allowed ? (
                 <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white" onClick={() => setConfirmGive(joined)} disabled={busy}>
                   <Users className="w-4 h-4 mr-2" />Give access to students
                 </Button>
               ) : (
-                <div className="text-sm text-emerald-300 flex items-center gap-2"><Radio className="w-4 h-4" />Students can join</div>
+                <div className="text-sm text-emerald-600 flex items-center gap-2"><Radio className="w-4 h-4" />Students can join</div>
               )}
               <Button variant="destructive" className="w-full" onClick={() => setConfirmComplete(joined)} disabled={busy}>
                 <CheckCircle2 className="w-4 h-4 mr-2" />Mark session complete
               </Button>
-              <div className="pt-2 border-t border-white/10 space-y-2">
-                <Label className="text-xs text-white/60">YouTube recording URL (optional)</Label>
+              <div className="pt-2 border-t border-teal-900/10 space-y-2">
+                <Label className="text-xs text-slate-600">YouTube recording URL (optional)</Label>
                 <Input value={ytForId === joined.id ? ytUrl : (joined.youtube_url || "")}
                   onFocus={() => { setYtForId(joined.id); setYtUrl(joined.youtube_url || ""); }}
                   onChange={(e) => setYtUrl(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white" placeholder="https://youtube.com/watch?v=…" />
+                  className="bg-slate-50 border-teal-900/10 text-white" placeholder="https://youtube.com/watch?v=…" />
                 <Button size="sm" variant="secondary" onClick={saveYoutube} disabled={busy || ytForId !== joined.id}>
                   <Youtube className="w-4 h-4 mr-2" />Save link
                 </Button>
@@ -193,26 +193,26 @@ export default function AdminDashboard() {
           {/* Main column */}
           <div className="space-y-6">
             {/* Course */}
-            <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-6 rounded-3xl">
-              <div className="text-xs uppercase tracking-widest text-white/50 mb-3">Course name</div>
+            <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-6 rounded-3xl">
+              <div className="text-xs uppercase tracking-widest text-slate-500 mb-3">Course name</div>
               <div className="flex gap-2">
                 <Input value={courseName} onChange={(e) => setCourseName(e.target.value)}
                   placeholder="e.g. Cognitive Behavioural Therapy — Module 3"
-                  className="bg-white/5 border-white/10 text-white" />
+                  className="bg-slate-50 border-teal-900/10 text-white" />
                 <Button onClick={saveCourse} disabled={busy}><PencilLine className="w-4 h-4 mr-2" />Save</Button>
               </div>
             </Card>
 
             {/* Active session */}
             {activeSched && (
-              <Card className="bg-gradient-to-br from-[oklch(0.25_0.15_290/0.5)] to-[oklch(0.2_0.12_260/0.5)] border-white/10 p-6 rounded-3xl">
+              <Card className="bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-900/10 p-6 rounded-3xl">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="flex items-center gap-2 text-emerald-300 text-xs uppercase tracking-widest"><Radio className="w-3 h-3" />Live now</div>
+                    <div className="flex items-center gap-2 text-emerald-600 text-xs uppercase tracking-widest"><Radio className="w-3 h-3" />Live now</div>
                     <div className="mt-1 text-xl font-semibold">{fmt(activeSched.scheduled_at)}</div>
-                    <div className="text-xs text-white/60 mt-1">Students {activeSched.students_allowed ? "have access" : "waiting for access"}</div>
+                    <div className="text-xs text-slate-600 mt-1">Students {activeSched.students_allowed ? "have access" : "waiting for access"}</div>
                   </div>
-                  <Button size="lg" className="bg-gradient-to-r from-[oklch(0.7_0.2_290)] to-[oklch(0.6_0.2_220)]"
+                  <Button size="lg" className="bg-gradient-to-r from-teal-700 to-emerald-500"
                     onClick={() => joinNow(activeSched)}>
                     <Video className="w-4 h-4 mr-2" />Rejoin
                   </Button>
@@ -221,51 +221,51 @@ export default function AdminDashboard() {
             )}
 
             {/* Next / add */}
-            <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-6 rounded-3xl space-y-4">
+            <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-6 rounded-3xl space-y-4">
               <div className="flex items-center justify-between">
-                <div className="text-xs uppercase tracking-widest text-white/50">Schedule</div>
-                <div className="text-xs text-white/50">Tip: join 10–15 min early</div>
+                <div className="text-xs uppercase tracking-widest text-slate-500">Schedule</div>
+                <div className="text-xs text-slate-500">Tip: join 10–15 min early</div>
               </div>
               {nextSched ? (
-                <div className="flex items-center justify-between rounded-xl bg-white/5 p-4">
+                <div className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
                   <div>
-                    <div className="text-xs text-white/50">Next class</div>
+                    <div className="text-xs text-slate-500">Next class</div>
                     <div className="text-lg font-medium">{fmt(nextSched.scheduled_at)}</div>
                   </div>
                   <div className="flex gap-2">
                     <Button size="sm" variant="secondary" onClick={() => setEditTime({ id: nextSched.id, value: toLocalInput(nextSched.scheduled_at) })}>Edit</Button>
                     <Button size="sm" onClick={() => joinNow(nextSched)} disabled={busy}
-                      className="bg-gradient-to-r from-[oklch(0.7_0.2_290)] to-[oklch(0.6_0.2_220)]">
+                      className="bg-gradient-to-r from-teal-700 to-emerald-500">
                       <Video className="w-4 h-4 mr-1" />Join now
                     </Button>
                   </div>
                 </div>
               ) : (
-                <div className="text-sm text-white/60">No upcoming session. Add one below.</div>
+                <div className="text-sm text-slate-600">No upcoming session. Add one below.</div>
               )}
-              <div className="flex gap-2 pt-2 border-t border-white/10">
+              <div className="flex gap-2 pt-2 border-t border-teal-900/10">
                 <Input type="datetime-local" value={newTime} onChange={(e) => setNewTime(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white" />
+                  className="bg-slate-50 border-teal-900/10 text-white" />
                 <Button onClick={addSchedule} disabled={busy}><PlusCircle className="w-4 h-4 mr-2" />Add schedule</Button>
               </div>
             </Card>
 
             {/* Completed / recording */}
             {completedSched && (
-              <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-6 rounded-3xl space-y-3">
+              <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-6 rounded-3xl space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-xs uppercase tracking-widest text-white/50 mb-1">Last completed</div>
+                    <div className="text-xs uppercase tracking-widest text-slate-500 mb-1">Last completed</div>
                     <div className="font-medium">{fmt(completedSched.scheduled_at)}</div>
                   </div>
                   <CheckCircle2 className="w-5 h-5 text-emerald-400" />
                 </div>
-                <div className="flex gap-2 pt-2 border-t border-white/10">
+                <div className="flex gap-2 pt-2 border-t border-teal-900/10">
                   <Input placeholder="YouTube recording URL (optional)"
                     value={ytForId === completedSched.id ? ytUrl : (completedSched.youtube_url || "")}
                     onFocus={() => { setYtForId(completedSched.id); setYtUrl(completedSched.youtube_url || ""); }}
                     onChange={(e) => setYtUrl(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white" />
+                    className="bg-slate-50 border-teal-900/10 text-white" />
                   <Button onClick={saveYoutube} disabled={busy || ytForId !== completedSched.id}>
                     <Youtube className="w-4 h-4 mr-2" />Save
                   </Button>
@@ -276,47 +276,47 @@ export default function AdminDashboard() {
 
           {/* Sidebar */}
           <aside className="space-y-4">
-            <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-5 rounded-2xl space-y-3">
+            <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-5 rounded-2xl space-y-3">
               <div className="flex items-center justify-between">
-                <div className="text-xs uppercase tracking-widest text-white/50">Class time card</div>
-                <Button variant="ghost" size="sm" onClick={toggleHide} className="text-white/70 hover:text-white">
+                <div className="text-xs uppercase tracking-widest text-slate-500">Class time card</div>
+                <Button variant="ghost" size="sm" onClick={toggleHide} className="text-slate-600 hover:text-slate-900">
                   {state.batch.hide_schedule ? <><Eye className="w-4 h-4 mr-2" />Unhide</> : <><EyeOff className="w-4 h-4 mr-2" />Hide</>}
                 </Button>
               </div>
               {!state.batch.hide_schedule && (
                 <>
                   {activeSched && (
-                    <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 p-3">
-                      <div className="text-xs text-emerald-300 flex items-center gap-1"><Radio className="w-3 h-3" />Live</div>
+                    <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-3">
+                      <div className="text-xs text-emerald-600 flex items-center gap-1"><Radio className="w-3 h-3" />Live</div>
                       <div className="text-sm mt-0.5">{fmt(activeSched.scheduled_at)}</div>
                     </div>
                   )}
                   {nextSched && (
-                    <div className="rounded-lg bg-white/5 p-3">
-                      <div className="text-xs text-white/50 flex items-center gap-1"><Clock className="w-3 h-3" />Next</div>
+                    <div className="rounded-lg bg-slate-50 p-3">
+                      <div className="text-xs text-slate-500 flex items-center gap-1"><Clock className="w-3 h-3" />Next</div>
                       <div className="text-sm mt-0.5">{fmt(nextSched.scheduled_at)}</div>
                     </div>
                   )}
-                  {!activeSched && !nextSched && <div className="text-xs text-white/50">No sessions.</div>}
+                  {!activeSched && !nextSched && <div className="text-xs text-slate-500">No sessions.</div>}
                 </>
               )}
             </Card>
 
-            <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-5 rounded-2xl space-y-3">
+            <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-5 rounded-2xl space-y-3">
               <div className="flex items-center justify-between">
-                <div className="text-xs uppercase tracking-widest text-white/50">Student credentials</div>
-                <Button variant="ghost" size="sm" onClick={() => setShowCreds((v) => !v)} className="text-white/70">
+                <div className="text-xs uppercase tracking-widest text-slate-500">Student credentials</div>
+                <Button variant="ghost" size="sm" onClick={() => setShowCreds((v) => !v)} className="text-slate-600">
                   {showCreds ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </Button>
               </div>
               <div className="text-sm space-y-1">
-                <div><span className="text-white/50">Username: </span><span className="font-mono">{state.batch.student_username}</span></div>
-                <div><span className="text-white/50">Password: </span><span className="font-mono">{showCreds ? state.batch.student_password : "••••••••"}</span></div>
+                <div><span className="text-slate-500">Username: </span><span className="font-mono">{state.batch.student_username}</span></div>
+                <div><span className="text-slate-500">Password: </span><span className="font-mono">{showCreds ? state.batch.student_password : "••••••••"}</span></div>
               </div>
               <Button variant="destructive" size="sm" className="w-full" onClick={() => setConfirmReset(true)} disabled={busy}>
                 <KeyRound className="w-4 h-4 mr-2" />Reset student login
               </Button>
-              <p className="text-xs text-white/40">Resetting deactivates the current student credentials for this batch immediately.</p>
+              <p className="text-xs text-slate-400">Resetting deactivates the current student credentials for this batch immediately.</p>
             </Card>
           </aside>
         </main>

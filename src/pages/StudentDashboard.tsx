@@ -70,14 +70,14 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[oklch(0.14_0.05_270)] via-[oklch(0.16_0.06_280)] to-[oklch(0.13_0.05_260)] text-white">
-      <header className="border-b border-white/10 backdrop-blur bg-black/20 sticky top-0 z-30">
+    <div className="min-h-screen bg-gradient-to-br from-[#faf7f2] via-[#f3ede2] to-[#e6f4f1] text-slate-900">
+      <header className="border-b border-teal-900/10 backdrop-blur bg-white/70 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-widest text-white/50">Jeevani Connect</div>
+            <div className="text-xs uppercase tracking-widest text-slate-500">Jeevani Connect</div>
             <div className="font-semibold">{state?.batch?.name ?? s.batch_name} · {state?.batch?.course_name || "Course TBA"}</div>
           </div>
-          <Button variant="ghost" onClick={logout} className="text-white/80 hover:text-white hover:bg-white/10">
+          <Button variant="ghost" onClick={logout} className="text-slate-700 hover:text-slate-900 hover:bg-slate-100">
             <LogOut className="w-4 h-4 mr-2" />Sign out
           </Button>
         </div>
@@ -85,9 +85,9 @@ export default function StudentDashboard() {
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 space-y-8">
         {!state ? (
-          <div className="flex items-center gap-2 text-white/60"><Loader2 className="w-4 h-4 animate-spin" />Loading…</div>
+          <div className="flex items-center gap-2 text-slate-600"><Loader2 className="w-4 h-4 animate-spin" />Loading…</div>
         ) : joined && state.active?.meet_link ? (
-          <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-2 md:p-3 rounded-3xl">
+          <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-2 md:p-3 rounded-3xl">
             <div className="h-[70vh]">
               <JitsiEmbed
                 meetLink={state.active.meet_link}
@@ -97,57 +97,57 @@ export default function StudentDashboard() {
             </div>
           </Card>
         ) : waiting ? (
-          <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-10 md:p-16 rounded-3xl text-center">
+          <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-10 md:p-16 rounded-3xl text-center">
             <div className="relative inline-flex mb-6">
-              <div className="absolute inset-0 rounded-full bg-[oklch(0.6_0.2_260)] blur-xl opacity-60 animate-pulse" />
-              <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-[oklch(0.7_0.2_290)] to-[oklch(0.6_0.2_220)] flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full bg-teal-400 blur-xl opacity-60 animate-pulse" />
+              <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-teal-700 to-emerald-500 flex items-center justify-center">
                 <Sparkles className="w-9 h-9 text-white animate-pulse" />
               </div>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold">Hang tight — your class is being prepared</h2>
-            <p className="text-white/60 mt-3 max-w-md mx-auto">
+            <p className="text-slate-600 mt-3 max-w-md mx-auto">
               Your instructor is setting up the live session. You'll be joined automatically the moment they open the room.
             </p>
-            <div className="mt-6 flex items-center justify-center gap-2 text-sm text-white/50">
+            <div className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-500">
               <Loader2 className="w-4 h-4 animate-spin" /> Waiting for instructor…
             </div>
           </Card>
         ) : justCompleted ? (
-          <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-10 md:p-16 rounded-3xl text-center">
+          <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-10 md:p-16 rounded-3xl text-center">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
               <PlayCircle className="w-8 h-8 text-white" />
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold">Session complete — thanks for joining!</h2>
-            <p className="text-white/60 mt-3">Your instructor has ended the live class. Check back for the next scheduled session.</p>
+            <p className="text-slate-600 mt-3">Your instructor has ended the live class. Check back for the next scheduled session.</p>
             <Button className="mt-6" onClick={() => setJustCompleted(false)}>Continue</Button>
           </Card>
         ) : (
           <>
             {/* Next class */}
-            <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-6 md:p-8 rounded-3xl">
+            <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-6 md:p-8 rounded-3xl">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div>
-                  <div className="text-xs uppercase tracking-widest text-white/50 mb-2">Next live class</div>
+                  <div className="text-xs uppercase tracking-widest text-slate-500 mb-2">Next live class</div>
                   {state.active ? (
                     <>
                       <div className="text-2xl md:text-3xl font-semibold">Live now</div>
-                      <div className="text-white/60 mt-1 flex items-center gap-2"><Clock className="w-4 h-4" />Started {fmt(state.active.scheduled_at)}</div>
+                      <div className="text-slate-600 mt-1 flex items-center gap-2"><Clock className="w-4 h-4" />Started {fmt(state.active.scheduled_at)}</div>
                     </>
                   ) : state.next ? (
                     <>
                       <div className="text-2xl md:text-3xl font-semibold">{fmt(state.next.scheduled_at)}</div>
-                      <div className="text-white/60 mt-1">{state.batch.course_name || "Course details coming soon"}</div>
+                      <div className="text-slate-600 mt-1">{state.batch.course_name || "Course details coming soon"}</div>
                     </>
                   ) : (
                     <>
                       <div className="text-2xl md:text-3xl font-semibold">Scheduling soon</div>
-                      <div className="text-white/60 mt-1">There are no sessions on the calendar just yet — please check back shortly.</div>
+                      <div className="text-slate-600 mt-1">There are no sessions on the calendar just yet — please check back shortly.</div>
                     </>
                   )}
                 </div>
                 {(state.active || state.next) && (
                   <Button size="lg" onClick={() => setConfirmJoin(true)}
-                    className="bg-gradient-to-r from-[oklch(0.7_0.2_290)] to-[oklch(0.6_0.2_220)] text-white h-12 px-8 text-base shadow-lg">
+                    className="bg-gradient-to-r from-teal-700 to-emerald-500 text-white h-12 px-8 text-base shadow-lg">
                     <Video className="w-5 h-5 mr-2" /> Join now
                   </Button>
                 )}
@@ -156,13 +156,13 @@ export default function StudentDashboard() {
 
             {/* Previous recording */}
             {state.previous?.youtube_url && (
-              <Card className="bg-[oklch(0.16_0.03_270/0.7)] border-white/10 p-6 rounded-3xl space-y-4">
+              <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-6 rounded-3xl space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-xs uppercase tracking-widest text-white/50 mb-1">Previous session · Recording</div>
+                    <div className="text-xs uppercase tracking-widest text-slate-500 mb-1">Previous session · Recording</div>
                     <div className="text-lg font-medium">Watch recorded — {fmt(state.previous.scheduled_at)}</div>
                   </div>
-                  <CalendarClock className="w-6 h-6 text-white/40" />
+                  <CalendarClock className="w-6 h-6 text-slate-400" />
                 </div>
                 <YouTubeProtected url={state.previous.youtube_url} />
               </Card>
