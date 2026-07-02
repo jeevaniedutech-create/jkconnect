@@ -68,7 +68,6 @@ export default function Login() {
             <div className="space-y-2">
               <Label htmlFor="u" className="text-slate-700">Username</Label>
               <Input id="u" value={u} onChange={(e) => setU(e.target.value)} autoComplete="username"
-                placeholder="e.g. jeevanistd657"
                 className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 h-11 focus-visible:ring-teal-500" />
             </div>
             <div className="space-y-2">
@@ -83,9 +82,6 @@ export default function Login() {
                 : <>Sign in <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" /></>}
             </Button>
           </form>
-          <p className="text-xs text-slate-400 text-center mt-6">
-            Students & administrators sign in from this single page.
-          </p>
         </Card>
       </div>
     </div>
