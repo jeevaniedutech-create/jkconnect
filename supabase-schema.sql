@@ -293,20 +293,20 @@ grant execute on function public.jc_student_get_state(text, text) to anon, authe
 -- SEED: 12 batches with credentials
 -- KEEP THIS LIST — this is the initial set of usernames/passwords
 -- =====================================================================
--- Simple, memorable credentials (pattern: studentNN / learnNN, adminNN / teachNN)
+-- Shuffled, non-sequential credentials (no batch-number pattern leakage)
 insert into public.batches (id, name, student_username, student_password, admin_username, admin_password) values
-  (1,  'Batch 01', 'student01', 'learn01', 'admin01', 'teach01'),
-  (2,  'Batch 02', 'student02', 'learn02', 'admin02', 'teach02'),
-  (3,  'Batch 03', 'student03', 'learn03', 'admin03', 'teach03'),
-  (4,  'Batch 04', 'student04', 'learn04', 'admin04', 'teach04'),
-  (5,  'Batch 05', 'student05', 'learn05', 'admin05', 'teach05'),
-  (6,  'Batch 06', 'student06', 'learn06', 'admin06', 'teach06'),
-  (7,  'Batch 07', 'student07', 'learn07', 'admin07', 'teach07'),
-  (8,  'Batch 08', 'student08', 'learn08', 'admin08', 'teach08'),
-  (9,  'Batch 09', 'student09', 'learn09', 'admin09', 'teach09'),
-  (10, 'Batch 10', 'student10', 'learn10', 'admin10', 'teach10'),
-  (11, 'Batch 11', 'student11', 'learn11', 'admin11', 'teach11'),
-  (12, 'Batch 12', 'student12', 'learn12', 'admin12', 'teach12')
+  (1,  'Batch 01', 'jeevanistd657',  'jeevani765',     'jeevaniadmin098', 'password@789'),
+  (2,  'Batch 02', 'jeevanistd214',  'mindcare432',    'jeevaniadmin371', 'secure@241'),
+  (3,  'Batch 03', 'jeevanistd903',  'learnwell128',   'jeevaniadmin582', 'admin@613'),
+  (4,  'Batch 04', 'jeevanistd486',  'brightmind907',  'jeevaniadmin147', 'teachr@804'),
+  (5,  'Batch 05', 'jeevanistd071',  'jeevani539',     'jeevaniadmin629', 'password@352'),
+  (6,  'Batch 06', 'jeevanistd328',  'mindwell714',    'jeevaniadmin860', 'secure@927'),
+  (7,  'Batch 07', 'jeevanistd592',  'growmind283',    'jeevaniadmin403', 'admin@165'),
+  (8,  'Batch 08', 'jeevanistd845',  'jeevani612',     'jeevaniadmin718', 'teachr@490'),
+  (9,  'Batch 09', 'jeevanistd139',  'calmmind456',    'jeevaniadmin254', 'password@037'),
+  (10, 'Batch 10', 'jeevanistd760',  'jeevani841',     'jeevaniadmin596', 'secure@683'),
+  (11, 'Batch 11', 'jeevanistd427',  'peacemind195',   'jeevaniadmin931', 'admin@572'),
+  (12, 'Batch 12', 'jeevanistd683',  'jeevani372',     'jeevaniadmin045', 'teachr@218')
 on conflict (id) do update set
   student_username = excluded.student_username,
   student_password = excluded.student_password,
