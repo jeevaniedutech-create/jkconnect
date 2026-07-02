@@ -74,12 +74,13 @@ export default function StudentDashboard() {
       <header className="border-b border-teal-900/10 backdrop-blur bg-white/70 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <img src={new URL('../assets/jeevani-logo.png.asset.json', import.meta.url) ? require('@/assets/jeevani-logo.png.asset.json').url : ''} alt="Jeevani" className="h-9 w-auto hidden sm:block" />
+            <Logo className="h-9 w-auto hidden sm:block" />
             <div>
               <div className="text-[10px] uppercase tracking-[0.2em] text-teal-700 font-medium">Jeevani Connect</div>
               <div className="font-serif text-lg text-slate-900">{state?.batch?.name ?? s.batch_name} <span className="text-slate-400">·</span> <span className="text-slate-600 text-sm">{state?.batch?.course_name || "Course TBA"}</span></div>
             </div>
           </div>
+
 
           <Button variant="ghost" onClick={logout} className="text-slate-700 hover:text-slate-900 hover:bg-slate-100">
             <LogOut className="w-4 h-4 mr-2" />Sign out
