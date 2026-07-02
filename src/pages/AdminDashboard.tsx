@@ -159,44 +159,6 @@ export default function AdminDashboard() {
 
       {!state ? (
         <div className="p-10 text-slate-600 flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" />Loading…</div>
-      ) : joined && joined.meet_link ? (
-        <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 grid lg:grid-cols-[1fr_320px] gap-6">
-          <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-2 rounded-3xl">
-            <div className="h-[75vh]">
-              <JitsiEmbed
-                meetLink={joined.meet_link}
-                displayName={`Instructor · ${state.batch.name}`}
-                onLeft={() => setJoined(null)}
-              />
-            </div>
-          </Card>
-          <aside className="space-y-4">
-            <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-5 rounded-2xl space-y-3">
-              <div className="text-xs uppercase tracking-widest text-slate-500">Live controls</div>
-              <p className="text-xs text-slate-600">Tip: join 10–15 minutes before your scheduled start so audio, video, and screen-sharing are ready when students arrive.</p>
-              {!joined.students_allowed ? (
-                <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white" onClick={() => setConfirmGive(joined)} disabled={busy}>
-                  <Users className="w-4 h-4 mr-2" />Give access to students
-                </Button>
-              ) : (
-                <div className="text-sm text-emerald-600 flex items-center gap-2"><Radio className="w-4 h-4" />Students can join</div>
-              )}
-              <Button variant="destructive" className="w-full" onClick={() => setConfirmComplete(joined)} disabled={busy}>
-                <CheckCircle2 className="w-4 h-4 mr-2" />Mark session complete
-              </Button>
-              <div className="pt-2 border-t border-teal-900/10 space-y-2">
-                <Label className="text-xs text-slate-600">YouTube recording URL (optional)</Label>
-                <Input value={ytForId === joined.id ? ytUrl : (joined.youtube_url || "")}
-                  onFocus={() => { setYtForId(joined.id); setYtUrl(joined.youtube_url || ""); }}
-                  onChange={(e) => setYtUrl(e.target.value)}
-                  className="bg-slate-50 border-teal-900/10 text-slate-900" placeholder="https://youtube.com/watch?v=…" />
-                <Button size="sm" variant="secondary" onClick={saveYoutube} disabled={busy || ytForId !== joined.id}>
-                  <Youtube className="w-4 h-4 mr-2" />Save link
-                </Button>
-              </div>
-            </Card>
-          </aside>
-        </main>
       ) : (
         <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 grid lg:grid-cols-[1fr_360px] gap-6">
           {/* Main column */}
@@ -214,20 +176,34 @@ export default function AdminDashboard() {
 
             {/* Active session */}
             {activeSched && (
-              <Card className="bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-900/10 p-6 rounded-3xl">
-                <div className="flex items-center justify-between">
+              <Card className="bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-900/10 p-6 rounded-3xl space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2 text-emerald-600 text-xs uppercase tracking-widest"><Radio className="w-3 h-3" />Live now</div>
                     <div className="mt-1 text-xl font-semibold">{fmt(activeSched.scheduled_at)}</div>
                     <div className="text-xs text-slate-600 mt-1">Students {activeSched.students_allowed ? "have access" : "waiting for access"}</div>
                   </div>
                   <Button size="lg" className="bg-gradient-to-r from-teal-700 to-emerald-500"
-                    onClick={() => joinNow(activeSched)}>
-                    <Video className="w-4 h-4 mr-2" />Rejoin
+                    onClick={() => reopenMeet(activeSched)}>
+                    <ExternalLink className="w-4 h-4 mr-2" />Reopen meeting
                   </Button>
                 </div>
+                <div className="grid sm:grid-cols-2 gap-2 pt-3 border-t border-teal-900/10">
+                  {!activeSched.students_allowed ? (
+                    <Button className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white" onClick={() => setConfirmGive(activeSched)} disabled={busy}>
+                      <Users className="w-4 h-4 mr-2" />Give access to students
+                    </Button>
+                  ) : (
+                    <div className="text-sm text-emerald-600 flex items-center gap-2 px-2"><Radio className="w-4 h-4" />Students can join</div>
+                  )}
+                  <Button variant="destructive" onClick={() => setConfirmComplete(activeSched)} disabled={busy}>
+                    <CheckCircle2 className="w-4 h-4 mr-2" />Mark session complete
+                  </Button>
+                </div>
+                <p className="text-xs text-slate-600">Tip: open the meeting first, wait for it to load, then click "Give access to students" so they can enter.</p>
               </Card>
             )}
+
 
             {/* Next / add */}
             <Card className="bg-white/80 backdrop-blur-xl border-teal-900/10 p-6 rounded-3xl space-y-4">
