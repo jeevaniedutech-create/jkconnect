@@ -15,6 +15,8 @@ import {
   Radio, Youtube, PencilLine, Users, Video, ChevronRight,
 } from "lucide-react";
 import JitsiEmbed from "@/components/JitsiEmbed";
+import { Logo } from "@/components/Brand";
+
 
 type Sched = {
   id: string; scheduled_at: string; status: "scheduled" | "active" | "completed";
@@ -137,11 +139,15 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#faf7f2] via-[#f3ede2] to-[#e6f4f1] text-slate-900">
       <header className="border-b border-teal-900/10 backdrop-blur bg-white/70 sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
-          <div>
-            <div className="text-xs uppercase tracking-widest text-slate-500">Jeevani Connect · Admin</div>
-            <div className="font-semibold">{state?.batch?.name ?? s.batch_name}</div>
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Logo className="h-9 w-auto hidden sm:block" />
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-teal-700 font-medium">Jeevani Connect · Admin</div>
+              <div className="font-serif text-lg text-slate-900">{state?.batch?.name ?? s.batch_name}</div>
+            </div>
           </div>
+
           <Button variant="ghost" onClick={logout} className="text-slate-700 hover:text-slate-900 hover:bg-slate-100">
             <LogOut className="w-4 h-4 mr-2" />Sign out
           </Button>
