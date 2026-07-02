@@ -12,10 +12,10 @@ import {
 import { toast } from "sonner";
 import {
   LogOut, Loader2, Clock, CheckCircle2, Eye, EyeOff, KeyRound, PlusCircle,
-  Radio, Youtube, PencilLine, Users, Video, ChevronRight,
+  Radio, Youtube, PencilLine, Users, Video, ExternalLink,
 } from "lucide-react";
-import JitsiEmbed from "@/components/JitsiEmbed";
 import { Logo } from "@/components/Brand";
+import { openMeet } from "@/lib/meet";
 
 
 type Sched = {
