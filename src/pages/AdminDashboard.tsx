@@ -104,9 +104,14 @@ export default function AdminDashboard() {
     try {
       const r: any = await rpc("jc_admin_join_now", { _u: s.username, _p: s.password, _sid: sc.id });
       await load();
-      setJoined({ ...sc, meet_link: r.meet_link, status: "active" });
+      const link = r.meet_link || sc.meet_link;
+      if (link) openMeet(link, { asHost: true, displayName: `Instructor · ${state?.batch.name ?? ""}` });
+      else toast.error("Meeting link is not available yet.");
     } catch (e: any) { toast.error(e.message); }
     finally { setBusy(false); }
+  }
+  function reopenMeet(sc: Sched) {
+    if (sc.meet_link) openMeet(sc.meet_link, { asHost: true, displayName: `Instructor · ${state?.batch.name ?? ""}` });
   }
   async function giveAccess(sc: Sched) {
     setConfirmGive(null);
@@ -117,7 +122,6 @@ export default function AdminDashboard() {
     setConfirmComplete(null);
     await withBusy(() => rpc("jc_admin_complete_session", { _u: s.username, _p: s.password, _sid: sc.id }),
       "Session marked complete — students can no longer join");
-    setJoined(null);
   }
   async function saveYoutube() {
     if (!ytForId) return;
