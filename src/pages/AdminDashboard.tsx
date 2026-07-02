@@ -180,7 +180,7 @@ export default function AdminDashboard() {
                 <Input value={ytForId === joined.id ? ytUrl : (joined.youtube_url || "")}
                   onFocus={() => { setYtForId(joined.id); setYtUrl(joined.youtube_url || ""); }}
                   onChange={(e) => setYtUrl(e.target.value)}
-                  className="bg-slate-50 border-teal-900/10 text-white" placeholder="https://youtube.com/watch?v=…" />
+                  className="bg-slate-50 border-teal-900/10 text-slate-900" placeholder="https://youtube.com/watch?v=…" />
                 <Button size="sm" variant="secondary" onClick={saveYoutube} disabled={busy || ytForId !== joined.id}>
                   <Youtube className="w-4 h-4 mr-2" />Save link
                 </Button>
@@ -198,7 +198,7 @@ export default function AdminDashboard() {
               <div className="flex gap-2">
                 <Input value={courseName} onChange={(e) => setCourseName(e.target.value)}
                   placeholder="e.g. Cognitive Behavioural Therapy — Module 3"
-                  className="bg-slate-50 border-teal-900/10 text-white" />
+                  className="bg-slate-50 border-teal-900/10 text-slate-900" />
                 <Button onClick={saveCourse} disabled={busy}><PencilLine className="w-4 h-4 mr-2" />Save</Button>
               </div>
             </Card>
@@ -245,7 +245,7 @@ export default function AdminDashboard() {
               )}
               <div className="flex gap-2 pt-2 border-t border-teal-900/10">
                 <Input type="datetime-local" value={newTime} onChange={(e) => setNewTime(e.target.value)}
-                  className="bg-slate-50 border-teal-900/10 text-white" />
+                  className="bg-slate-50 border-teal-900/10 text-slate-900" />
                 <Button onClick={addSchedule} disabled={busy}><PlusCircle className="w-4 h-4 mr-2" />Add schedule</Button>
               </div>
             </Card>
@@ -265,7 +265,7 @@ export default function AdminDashboard() {
                     value={ytForId === completedSched.id ? ytUrl : (completedSched.youtube_url || "")}
                     onFocus={() => { setYtForId(completedSched.id); setYtUrl(completedSched.youtube_url || ""); }}
                     onChange={(e) => setYtUrl(e.target.value)}
-                    className="bg-slate-50 border-teal-900/10 text-white" />
+                    className="bg-slate-50 border-teal-900/10 text-slate-900" />
                   <Button onClick={saveYoutube} disabled={busy || ytForId !== completedSched.id}>
                     <Youtube className="w-4 h-4 mr-2" />Save
                   </Button>
