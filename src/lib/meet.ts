@@ -14,11 +14,7 @@ export function openMeet(link: string, opts: { asHost?: boolean; displayName?: s
       params.push(`userInfo.displayName=%22${encodeURIComponent(opts.displayName)}%22`);
     }
     url.hash = params.join("&");
-    const win = window.open(url.toString(), "_blank", "noopener,noreferrer");
-    if (!win) {
-      // popup blocked — fall back to same-tab nav so user still reaches the room
-      window.location.href = url.toString();
-    }
+    window.open(url.toString(), "_blank", "noopener,noreferrer");
   } catch {
     window.open(link, "_blank", "noopener,noreferrer");
   }
