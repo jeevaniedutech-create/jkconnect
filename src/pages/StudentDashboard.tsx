@@ -8,10 +8,10 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { LogOut, Loader2, PlayCircle, Video, Clock, Sparkles, CalendarClock } from "lucide-react";
-import JitsiEmbed from "@/components/JitsiEmbed";
+import { LogOut, Loader2, PlayCircle, Video, Clock, Sparkles, CalendarClock, ExternalLink } from "lucide-react";
 import YouTubeProtected from "@/components/YouTubeProtected";
 import { Logo } from "@/components/Brand";
+import { openMeet } from "@/lib/meet";
 
 
 type State = {
