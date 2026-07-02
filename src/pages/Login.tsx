@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
-import { GraduationCap, Loader2 } from "lucide-react";
+import { Loader2, ArrowRight, ShieldCheck } from "lucide-react";
+import { Logo, BRAND, TAGLINE } from "@/components/Brand";
 
 export default function Login() {
   const nav = useNavigate();
@@ -29,41 +30,64 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[oklch(0.14_0.05_270)] via-[oklch(0.18_0.08_285)] to-[oklch(0.13_0.06_260)] p-4 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-30 pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-[oklch(0.65_0.22_290)] blur-3xl" />
-        <div className="absolute -bottom-40 -right-40 w-[32rem] h-[32rem] rounded-full bg-[oklch(0.6_0.2_220)] blur-3xl" />
+    <div className="min-h-screen w-full flex items-stretch bg-gradient-to-br from-[#faf7f2] via-[#f3ede2] to-[#e6f4f1] relative overflow-hidden">
+      <div className="absolute inset-0 opacity-70 pointer-events-none">
+        <div className="absolute -top-40 -left-40 w-[30rem] h-[30rem] rounded-full bg-teal-200/50 blur-3xl" />
+        <div className="absolute -bottom-40 -right-40 w-[36rem] h-[36rem] rounded-full bg-orange-200/40 blur-3xl" />
       </div>
 
-      <Card className="relative z-10 w-full max-w-md p-8 md:p-10 bg-[oklch(0.16_0.03_270/0.7)] backdrop-blur-2xl border border-white/10 shadow-2xl rounded-3xl">
-        <div className="flex flex-col items-center text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[oklch(0.7_0.2_290)] to-[oklch(0.6_0.2_220)] flex items-center justify-center shadow-lg shadow-[oklch(0.6_0.2_260/0.4)] mb-4">
-            <GraduationCap className="w-8 h-8 text-white" />
+      {/* Left brand panel */}
+      <div className="hidden lg:flex flex-col justify-between w-1/2 p-14 relative z-10">
+        <Logo className="h-12 w-auto" />
+        <div className="max-w-lg">
+          <h2 className="text-5xl xl:text-6xl font-serif tracking-tight text-slate-900 leading-[1.05]">
+            Live learning, <span className="italic text-teal-700">crafted with care.</span>
+          </h2>
+          <p className="mt-6 text-lg text-slate-600 leading-relaxed">{TAGLINE}</p>
+          <div className="mt-10 flex items-center gap-3 text-sm text-slate-500">
+            <ShieldCheck className="w-4 h-4 text-teal-600" />
+            Private classroom · Batch-only access · Encrypted sessions
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Jeevani Connect</h1>
-          <p className="text-sm text-white/60 mt-1">Premium live learning · Jeevani Institute of Mind Care</p>
         </div>
+        <div className="text-xs text-slate-400">© {new Date().getFullYear()} Jeevani Institute of Mind Care</div>
+      </div>
 
-        <form onSubmit={submit} className="space-y-5">
-          <div className="space-y-2">
-            <Label htmlFor="u" className="text-white/80">Username</Label>
-            <Input id="u" value={u} onChange={(e) => setU(e.target.value)} autoComplete="username"
-              className="bg-white/5 border-white/10 text-white placeholder:text-white/30 h-11" />
+      {/* Right form */}
+      <div className="flex-1 flex items-center justify-center p-6 md:p-10 relative z-10">
+        <Card className="w-full max-w-md p-8 md:p-10 bg-white/80 backdrop-blur-2xl border border-teal-900/10 shadow-[0_30px_80px_-30px_rgba(13,148,136,0.25)] rounded-3xl">
+          <div className="flex flex-col items-center text-center mb-8 lg:hidden">
+            <Logo className="h-12 w-auto" />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="p" className="text-white/80">Password</Label>
-            <Input id="p" type="password" value={p} onChange={(e) => setP(e.target.value)} autoComplete="current-password"
-              className="bg-white/5 border-white/10 text-white placeholder:text-white/30 h-11" />
+          <div className="mb-8">
+            <div className="text-xs uppercase tracking-[0.2em] text-teal-700 font-medium">{BRAND}</div>
+            <h1 className="text-2xl md:text-3xl font-serif text-slate-900 mt-2">Welcome back</h1>
+            <p className="text-sm text-slate-500 mt-1">Sign in to enter your live classroom.</p>
           </div>
-          <Button type="submit" disabled={busy}
-            className="w-full h-11 bg-gradient-to-r from-[oklch(0.7_0.2_290)] to-[oklch(0.6_0.2_220)] hover:opacity-90 text-white font-medium shadow-lg shadow-[oklch(0.6_0.2_260/0.3)]">
-            {busy ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Signing in…</> : "Sign in"}
-          </Button>
-        </form>
-        <p className="text-xs text-white/40 text-center mt-6">
-          Students & administrators sign in from this single page.
-        </p>
-      </Card>
+
+          <form onSubmit={submit} className="space-y-5">
+            <div className="space-y-2">
+              <Label htmlFor="u" className="text-slate-700">Username</Label>
+              <Input id="u" value={u} onChange={(e) => setU(e.target.value)} autoComplete="username"
+                placeholder="e.g. jeevanistd657"
+                className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 h-11 focus-visible:ring-teal-500" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="p" className="text-slate-700">Password</Label>
+              <Input id="p" type="password" value={p} onChange={(e) => setP(e.target.value)} autoComplete="current-password"
+                placeholder="Enter your password"
+                className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 h-11 focus-visible:ring-teal-500" />
+            </div>
+            <Button type="submit" disabled={busy}
+              className="group w-full h-11 bg-gradient-to-r from-teal-700 to-emerald-500 hover:from-teal-800 hover:to-emerald-600 text-white font-medium shadow-lg shadow-teal-500/25">
+              {busy ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Signing in…</>
+                : <>Sign in <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" /></>}
+            </Button>
+          </form>
+          <p className="text-xs text-slate-400 text-center mt-6">
+            Students & administrators sign in from this single page.
+          </p>
+        </Card>
+      </div>
     </div>
   );
 }
