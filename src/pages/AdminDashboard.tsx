@@ -47,7 +47,6 @@ export default function AdminDashboard() {
   const s = getSession()!;
   const [state, setState] = useState<State | null>(null);
   const [busy, setBusy] = useState(false);
-  const [joined, setJoined] = useState<Sched | null>(null);
 
   // dialogs
   const [confirmReset, setConfirmReset] = useState(false);
