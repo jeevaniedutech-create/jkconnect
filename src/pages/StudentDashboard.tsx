@@ -29,29 +29,27 @@ export default function StudentDashboard() {
   const nav = useNavigate();
   const s = getSession()!;
   const [state, setState] = useState<State | null>(null);
-  const [joined, setJoined] = useState(false);
   const [waiting, setWaiting] = useState(false);
+  const [attended, setAttended] = useState(false);
   const [justCompleted, setJustCompleted] = useState(false);
   const [confirmJoin, setConfirmJoin] = useState(false);
 
   const load = useCallback(async () => {
     try {
       const st = await rpc<State>("jc_student_get_state", { _u: s.username, _p: s.password });
-      setState(st);
-      // If we were joined and session ended
-      if (joined && !st.active) {
-        setJoined(false);
-        setJustCompleted(true);
-      }
-      // If we were waiting and admin gave access
-      if (waiting && st.active?.students_allowed && st.active.meet_link) {
-        setWaiting(false);
-        setJoined(true);
-      }
+      setState((prev) => {
+        // If we had an active session going and it just ended, show completion.
+        if ((prev?.active || attended || waiting) && !st.active && (attended || waiting)) {
+          setJustCompleted(true);
+          setAttended(false);
+          setWaiting(false);
+        }
+        return st;
+      });
     } catch (e: any) {
       toast.error(e.message);
     }
-  }, [joined, waiting, s.username, s.password]);
+  }, [s.username, s.password, attended, waiting]);
 
   useEffect(() => {
     load();
@@ -61,11 +59,18 @@ export default function StudentDashboard() {
 
   function logout() { clearSession(); nav("/", { replace: true }); }
 
+  function openClass() {
+    if (!state?.active?.meet_link) return;
+    openMeet(state.active.meet_link, { displayName: `Student · ${state.batch.name}` });
+    setAttended(true);
+    setWaiting(false);
+    setJustCompleted(false);
+  }
+
   function handleJoin() {
     setConfirmJoin(false);
     if (state?.active?.students_allowed && state.active.meet_link) {
-      setJoined(true);
-      setJustCompleted(false);
+      openClass();
     } else {
       setWaiting(true);
     }
