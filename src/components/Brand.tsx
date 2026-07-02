@@ -1,13 +1,11 @@
-import logoAsset from "@/assets/jeevani-logo.png.asset.json";
+const LOGO_URL = "https://www.jeevanimindcare.in/assets/img/logo/logo.png";
 
-const LOGO_URL = logoAsset.url;
-
-export function Logo({ className = "h-10 w-auto max-w-[10rem]" }: { className?: string }) {
+export function Logo({ className = "h-10 w-auto" }: { className?: string }) {
   return (
     <img
       src={LOGO_URL}
       alt="Jeevani Institute of Mind Care"
-      className={`object-contain select-none ${className}`}
+      className={`object-contain select-none [image-rendering:-webkit-optimize-contrast] ${className}`}
       draggable={false}
       loading="eager"
       decoding="async"
@@ -17,4 +15,5 @@ export function Logo({ className = "h-10 w-auto max-w-[10rem]" }: { className?: 
 
 export const TAGLINE = "A premium live learning platform of Jeevani Institute of Mind Care";
 export const BRAND = "Jeevani Connect";
+
 
