@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { LogOut, Loader2, PlayCircle, Video, Clock, Sparkles, CalendarClock } from "lucide-react";
 import JitsiEmbed from "@/components/JitsiEmbed";
 import YouTubeProtected from "@/components/YouTubeProtected";
+import { Logo } from "@/components/Brand";
+
 
 type State = {
   batch: { id: number; name: string; course_name: string };
