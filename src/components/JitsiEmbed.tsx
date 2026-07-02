@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+
 // Loads external Jitsi Meet API script once, then mounts an iframe in target div.
 declare global {
   interface Window { JitsiMeetExternalAPI?: any }
@@ -32,6 +33,13 @@ export default function JitsiEmbed({
   const ref = useRef<HTMLDivElement>(null);
   const apiRef = useRef<any>(null);
 
+  // Keep latest callbacks/props in refs so re-renders (e.g. background data
+  // refreshes) never remount the meeting iframe.
+  const onLeftRef = useRef(onLeft);
+  onLeftRef.current = onLeft;
+  const displayNameRef = useRef(displayName);
+  displayNameRef.current = displayName;
+
   useEffect(() => {
     let cancelled = false;
     const roomName = meetLink.split("/").pop() || "JC-CLASS";
@@ -43,7 +51,7 @@ export default function JitsiEmbed({
         parentNode: ref.current,
         width: "100%",
         height: "100%",
-        userInfo: { displayName },
+        userInfo: { displayName: displayNameRef.current },
         configOverwrite: {
           prejoinPageEnabled: false,
           disableDeepLinking: true,
@@ -56,8 +64,8 @@ export default function JitsiEmbed({
           SHOW_WATERMARK_FOR_GUESTS: false,
         },
       });
-      apiRef.current.addListener("videoConferenceLeft", () => onLeft?.());
-      apiRef.current.addListener("readyToClose", () => onLeft?.());
+      apiRef.current.addListener("videoConferenceLeft", () => onLeftRef.current?.());
+      apiRef.current.addListener("readyToClose", () => onLeftRef.current?.());
     }).catch(() => {});
 
     return () => {
@@ -65,7 +73,7 @@ export default function JitsiEmbed({
       try { apiRef.current?.dispose(); } catch {}
       apiRef.current = null;
     };
-  }, [meetLink, displayName, onLeft]);
+  }, [meetLink]);
 
   return <div ref={ref} className="w-full h-full min-h-[520px] bg-black rounded-2xl overflow-hidden" />;
 }
