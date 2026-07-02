@@ -1,10 +1,11 @@
-import type { ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import { Toaster } from "@/components/ui/sonner";
 import { getSession } from "./lib/auth";
+import Splash from "./components/Splash";
 
 function Protected({ role, children }: { role: "admin" | "student"; children: ReactElement }) {
   const s = getSession();
@@ -14,6 +15,19 @@ function Protected({ role, children }: { role: "admin" | "student"; children: Re
 }
 
 export default function App() {
+  const [splashDone, setSplashDone] = useState(() => sessionStorage.getItem("jc-splash-v1") === "1");
+
+  if (!splashDone) {
+    return (
+      <Splash
+        onDone={() => {
+          sessionStorage.setItem("jc-splash-v1", "1");
+          setSplashDone(true);
+        }}
+      />
+    );
+  }
+
   return (
     <>
       <Routes>
