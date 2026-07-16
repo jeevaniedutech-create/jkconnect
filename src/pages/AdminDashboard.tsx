@@ -188,6 +188,25 @@ export default function AdminDashboard() {
                     <ExternalLink className="w-4 h-4 mr-2" />Reopen meeting
                   </Button>
                 </div>
+
+                {activeSched.meet_link && (() => {
+                  let code = "";
+                  try { code = new URL(activeSched.meet_link).pathname.replace(/^\/+/, ""); } catch { code = ""; }
+                  if (!code) return null;
+                  return (
+                    <div className="rounded-xl border border-teal-900/10 bg-white/70 p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <div className="text-xs text-slate-600">
+                        <div className="uppercase tracking-widest text-[10px] text-slate-500 mb-1">Meeting code</div>
+                        Use this code to join the meeting on the Jitsi app: <span className="font-mono text-slate-900 font-semibold">{code}</span>
+                      </div>
+                      <Button size="sm" variant="secondary"
+                        onClick={() => { navigator.clipboard?.writeText(code); toast.success("Meeting code copied"); }}>
+                        Copy code
+                      </Button>
+                    </div>
+                  );
+                })()}
+
                 <div className="grid sm:grid-cols-2 gap-2 pt-3 border-t border-teal-900/10">
                   {!activeSched.students_allowed ? (
                     <Button className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white" onClick={() => setConfirmGive(activeSched)} disabled={busy}>
