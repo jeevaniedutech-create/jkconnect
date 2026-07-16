@@ -69,10 +69,10 @@ export default function YouTubeProtected({ url, title }: { url: string; title?: 
       }
     };
     const originalOpen = window.open;
-    window.open = function (...args: Parameters<typeof window.open>) {
+    window.open = function (this: unknown, ...args: Parameters<typeof window.open>) {
       const url = String(args[0] || "");
       if (url.includes("youtube.com") || url.includes("youtu.be")) return null;
-      return originalOpen.apply(this, args);
+      return originalOpen.apply(this as typeof window, args);
     } as typeof window.open;
 
     document.addEventListener("click", blockNavigation, true);
