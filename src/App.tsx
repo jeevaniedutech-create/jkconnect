@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import SmartSwitch from "./pages/SmartSwitch";
 import { Toaster } from "@/components/ui/sonner";
 import { getSession } from "./lib/auth";
 import Splash from "./components/Splash";
