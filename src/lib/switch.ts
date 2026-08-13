@@ -1,31 +1,15 @@
 import { supabase } from "./supabase";
 
-const KEY = "jc-switch-v1";
+const OP = { username: "jeevaniops418", password: "switch@2610" };
 
-export type SwitchSession = { username: string; password: string };
-
-export function getSwitchSession(): SwitchSession | null {
-  try {
-    const raw = localStorage.getItem(KEY);
-    return raw ? (JSON.parse(raw) as SwitchSession) : null;
-  } catch {
-    return null;
-  }
+export async function loadLastRun(): Promise<string | null> {
+  const { data, error } = await supabase.rpc("jc_switch_login", { _u: OP.username, _p: OP.password });
+  if (error) return null;
+  return (data as { last_run: string | null }).last_run;
 }
 
-export function clearSwitchSession() {
-  localStorage.removeItem(KEY);
-}
-
-export async function switchLogin(username: string, password: string) {
-  const { data, error } = await supabase.rpc("jc_switch_login", { _u: username, _p: password });
-  if (error) throw new Error("Invalid operator credentials");
-  localStorage.setItem(KEY, JSON.stringify({ username, password }));
-  return data as { ok: boolean; last_run: string | null };
-}
-
-export async function runSmartSwitch(s: SwitchSession) {
-  const { data, error } = await supabase.rpc("jc_smart_switch_run", { _u: s.username, _p: s.password });
+export async function runSmartSwitch() {
+  const { data, error } = await supabase.rpc("jc_smart_switch_run", { _u: OP.username, _p: OP.password });
   if (error) throw new Error(error.message);
   return data as { status: string; rows_processed: number; last_run: string };
 }
