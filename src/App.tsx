@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import SmartSwitch from "./pages/SmartSwitch";
 import { Toaster } from "@/components/ui/sonner";
 import { getSession } from "./lib/auth";
 import Splash from "./components/Splash";
@@ -16,8 +17,9 @@ function Protected({ role, children }: { role: "admin" | "student"; children: Re
 
 export default function App() {
   const [splashDone, setSplashDone] = useState(() => sessionStorage.getItem("jc-splash-v1") === "1");
+  const isSwitch = typeof window !== "undefined" && window.location.pathname.replace(/\/$/, "").endsWith("/switch");
 
-  if (!splashDone) {
+  if (!splashDone && !isSwitch) {
     return (
       <Splash
         onDone={() => {
@@ -32,6 +34,7 @@ export default function App() {
     <>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/switch" element={<SmartSwitch />} />
         <Route path="/student" element={<Protected role="student"><StudentDashboard /></Protected>} />
         <Route path="/admin" element={<Protected role="admin"><AdminDashboard /></Protected>} />
         <Route path="*" element={<Navigate to="/" replace />} />
