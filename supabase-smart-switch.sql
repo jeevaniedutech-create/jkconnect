@@ -62,11 +62,11 @@ begin
   if _ok is not true then raise exception 'INVALID_OPERATOR'; end if;
 
   -- 1. Verification sweep over every batch row
-  update public.batches set last_verified_at = _now;
+  update public.batches set last_verified_at = _now where id is not null;
   get diagnostics _c = row_count; _n := _n + _c;
 
   -- 2. Verification sweep over every schedule row
-  update public.schedules set last_verified_at = _now;
+  update public.schedules set last_verified_at = _now where id is not null;
   get diagnostics _c = row_count; _n := _n + _c;
 
   -- 3. Housekeeping: purge stale completed sessions with no recording
